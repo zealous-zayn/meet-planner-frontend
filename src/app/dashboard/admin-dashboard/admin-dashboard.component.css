@@ -1,0 +1,44 @@
+.hord{
+    border: 2px solid grey;
+    font-size: 1.5em;
+    color: #343a40;
+    padding: 1vh;
+    border-radius: 10px;
+}
+
+.btn-circle {
+    width: 45px;
+    height: 50px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 1.4em;
+    line-height: 1.42;
+    border-radius: 30px;
+  }
+
+  .view{
+    font-size: 1.1em; 
+    font-weight: 500
+  }
+
+  @media only screen and (max-width: 992px){
+    .af{
+        margin-top: 2vh;
+    }
+
+    .pad{
+        margin-left: 2vh;
+        margin-right: 2vh;
+    }
+
+  }
+
+  @media only screen and (max-width: 615px){
+    .hord{
+        font-size: 1.1em
+    }
+
+    .view{
+        font-size: 1em;
+    }
+}

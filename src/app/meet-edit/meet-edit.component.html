@@ -1,0 +1,72 @@
+<div class="container-fluid">
+    <div class="navbar">
+      <div class="hord">Create New Meet Planner</div>
+      <div style="padding: 1vh; float:right">
+        <span style="margin-right: 5vh"><button type="button" class="btn btn-outline-primary btn-lg" [routerLink]="[ '/admin-dashboard' ]">Go
+            Back To Dashboard</button></span>
+      </div>
+    </div>
+    <hr>
+    <form id="createForm" class="form-horizontal" role="form" #createForm="ngForm">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="form-group form-field-container">
+              <label style="color: gray; float: left;"><i class="fas fa-pen-nib"></i>&nbsp;&nbsp;Event Title<span style="color: red; font-size: 22px;">*</span></label>
+              <input type="text" #first="ngModel" [(ngModel)]="eventTitle" name="eventTitle" id="inputEventTitle" class="form-control"
+                placeholder="Event Title" required autofocus>
+              <div [hidden]="first.valid || first.pristine" style="color: red;">Please enter the Event Title</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group form-field-container">
+              <label style="color: gray; float: left;"><i class="fas fa-pen-nib"></i>&nbsp;&nbsp;Meet Venue<span style="color: red; font-size: 22px;">*</span></label>
+              <input type="text" #venueId="ngModel" [(ngModel)]="venue" name="venue" id="venue" class="form-control"
+                placeholder="Meet Venue" required autofocus>
+              <div [hidden]="venueId.valid || venueId.pristine" style="color: red;">Please mention the Meet Venue</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group form-field-container">
+              <label style="color: gray; float: left;"><i class="fas fa-pen-nib"></i>&nbsp;&nbsp;Meet Description<span
+                  style="color: red; font-size: 22px;">*</span></label>
+              <textarea style="height: 20vh" type="text" #desc="ngModel" [(ngModel)]="description" name="description" id="meetDesription"
+                class="form-control" placeholder="Breif description of the meet" required autofocus></textarea>
+              <div [hidden]="desc.valid || desc.pristine" style="color: red;">Please give little description</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="form-group form-field-container">
+              <label style="color: gray; float: left;"><i class="fas fa-clock"></i>&nbsp;&nbsp;Start At<span style="color: red; font-size: 22px;">*</span></label>
+              <input type="text" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" #startId="ngModel" [(ngModel)]="startTime"
+                name="startTime" id="startTime" class="form-control" placeholder="Choose Meet Start Time" required
+                autofocus>
+              <owl-date-time #dt1></owl-date-time>
+              <div [hidden]="startId.valid || startId.pristine" style="color: red;">Please Choose the Meet Start Time</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group form-field-container">
+              <label style="color: gray; float: left;"><i class="fas fa-clock"></i>&nbsp;&nbsp;End At<span style="color: red; font-size: 22px;">*</span></label>
+              <input type="text" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" #endId="ngModel" [(ngModel)]="endTime"
+                name="endTime" id="endTime" class="form-control" placeholder="Choose Meet End Time" required autofocus>
+              <owl-date-time #dt2></owl-date-time>
+              <div [hidden]="endId.valid || endId.pristine" style="color: red;">Please Choose the Meet End Time</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label style="color: gray; float: left;"><i class="fas fa-users"></i>&nbsp;&nbsp;Participants<span style="color: red; font-size: 22px;">*</span></label>
+            <ng-multiselect-dropdown name="allUsers" [placeholder]="'Select participants'" [data]="allUsers" [(ngModel)]="participants"
+              [settings]="dropdownSettings">
+            </ng-multiselect-dropdown>
+          </div>
+          <div class="d-flex justify-content-between">
+            <button type="button" class="btn btn-info" (click)="createForm.reset()">Reset</button>
+            <button type="button" class="btn btn-success" (click)="editMeet()" >Save Changes</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>

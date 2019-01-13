@@ -1,0 +1,199 @@
+
+<ng-template #modalContent let-close="close">
+    <div class="modal-header">
+      <h5 class="modal-title">Meeting Details</h5>
+      <button type="button" class="close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-12">
+    
+          <div class="card">
+            <div class="card-body">
+    
+              <div class="row">
+                <div class="col-4">
+                    <h5> Title </h5>
+                </div>
+                <div class="col-8">
+                  <h6 class="card-title">{{modalData?.event.title}} by {{modalData?.event['creatorName']}}</h6>
+                </div>
+              </div>
+    
+              <div class="row">
+                <div class="col-4">
+                    <h5> Purpose </h5>
+                </div>
+                <div class="col-8">
+                  <h6 class="card-title">{{modalData?.event['description']}}</h6>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4">
+                  <h5> Participant </h5>
+                </div>
+                <div class="col-8" *ngFor="let user of modalData?.event['participant']">
+                  <h6 class="card-title">{{user.firstName}}, </h6>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4">
+                  <h5>Date and Time</h5>
+                </div>
+                <div class="col-8">
+                  <h6 class="card-title">{{modalData?.event['startDate'] | date: 'medium'}} - {{modalData?.event['endDate']
+                    | date: 'medium'}}</h6>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4">
+                  <h5>Location </h5>
+                </div>
+                <div class="col-8">
+                  <h6 class="card-title">{{modalData?.event['venue']}}</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </ng-template>
+  
+    <ng-template #modalAlert let-close="close">
+        <div class="modal-header">
+          <h5 class="modal-title">Meeting Reminder</h5>
+          <button type="button" class="close" (click)="close()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h6 class="card-title">Your meeting <span><i> {{modalData?.event.title}} </i></span> will start soon!</h6>
+        </div>
+      
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-success" (click)="close();snooze()">Snooze</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="close();dismiss()">Dismiss</button>
+        </div>
+      </ng-template>    
+    
+    <div class="container-fluid">
+        <div class="navbar">
+          <div class="hord">Meet Planner - <span style="color: #007bff">{{userName}} Dashboard</span></div>   
+          <div style="padding: 1vh; float:right">
+          <span style="margin-right: 5vh"><button type="button" class="btn btn-outline-primary btn-lg" [routerLink]="[ '/meet-create' ]">Create Meet</button></span> 
+          <button type="button" class="btn btn-outline-secondary btn-lg" (click)="logOut()">Log Out</button>
+          </div>
+        </div>
+        <hr>
+        <ng-sidebar-container style="height: 80vh;">
+    
+            <!-- A sidebar -->
+            <ng-sidebar mode="over" [showBackdrop]="true" [closeOnClickOutside]="true" [(opened)]="_opened" style="background-color: black">
+              <div class="col" style="color: blue; min-width: 30vw; font-size: 1.5em">All Users
+                  <a (click)="_toggleSidebar()" class="btn btn-secondary" style="float:right; color: white; margin-left: 5vh">
+                      <i class="fas fa-angle-double-left"></i></a>
+                </div>
+                <hr>
+              <div *ngFor="let user of allUsers" style="text-align: center">
+              <h3 style="cursor: pointer; color: #007bff" (click)="selectUser(user.userId)">{{user.firstName + " " +user.lastName}}</h3>
+              <hr>
+              </div>
+            </ng-sidebar>
+    
+            <!-- Page content -->
+            <div ng-sidebar-content>
+                <div class="row" style="margin: 0vh; ">
+                    <div class="col-lg-4">
+                        <div class="btn-group">
+                          <div
+                            class="btn btn-primary btn-lg btn-circle"
+                            mwlCalendarPreviousView
+                            [view]="view"
+                            [(viewDate)]="viewDate" 
+                            (viewDateChange)="activeDayIsOpen = false">
+                            <i class="fas fa-chevron-left"></i>
+                          </div>
+                          <div
+                            class="btn btn-outline-primary"
+                            mwlCalendarToday
+                            [(viewDate)]="viewDate">
+                            <a class="view">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</a>
+                          </div>
+                          <div
+                            class="btn btn-primary btn-lg btn-circle"
+                            mwlCalendarNextView
+                            [view]="view"
+                            [(viewDate)]="viewDate"
+                            (viewDateChange)="activeDayIsOpen = false">
+                            <i class="fas fa-chevron-right"></i>
+                          </div>
+                        </div>
+                    </div>
+                    <br>
+                  <div class="col-lg-5 text-center af pad hord">
+                    <a (click)="_toggleSidebar()" class="btn btn-secondary" style="float: left; color: white"><i class="fas fa-angle-double-right"></i></a>
+                    Calender Of - <span style="color: #007bff; cursor: pointer;" (click)="_toggleSidebar()" data-toggle="tooltip"
+                    data-placement="bottom" title="Click to Add Sub Task in the list">{{selectedUserName}}</span>
+                  </div>
+                  <div class="col-lg-3 af">
+                    <div class="btn-group" style="float: right">
+                      <div
+                        class="btn btn-primary"
+                        (click)="view = CalendarView.Month"
+                        [class.active]="view === CalendarView.Month">
+                        Month
+                      </div>
+                      <div
+                        class="btn btn-primary "
+                        (click)="view = CalendarView.Week"
+                        [class.active]="view === CalendarView.Week">
+                        Week
+                      </div>
+                      <div
+                        class="btn btn-primary "
+                        (click)="view = CalendarView.Day"
+                        [class.active]="view === CalendarView.Day">
+                        Day
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="container">
+                    <div [ngSwitch]="view">
+                        <mwl-calendar-month-view
+                          *ngSwitchCase="CalendarView.Month"
+                          [viewDate]="viewDate"
+                          [events]="events"
+                          [refresh]="refresh"
+                          [activeDayIsOpen]="activeDayIsOpen"
+                          (dayClicked)="dayClicked($event.day)"
+                          (eventClicked)="handleEvent('Clicked', $event.event)"
+                          (eventTimesChanged)="eventTimesChanged($event)">
+                        </mwl-calendar-month-view>
+                        <mwl-calendar-week-view
+                          *ngSwitchCase="CalendarView.Week"
+                          [viewDate]="viewDate"
+                          [events]="events"
+                          [refresh]="refresh"
+                          (eventClicked)="handleEvent('Clicked', $event.event)"
+                          (eventTimesChanged)="eventTimesChanged($event)">
+                        </mwl-calendar-week-view>
+                        <mwl-calendar-day-view
+                          *ngSwitchCase="CalendarView.Day"
+                          [viewDate]="viewDate"
+                          [events]="events"
+                          [refresh]="refresh"
+                          (eventClicked)="handleEvent('Clicked', $event.event)"
+                          (eventTimesChanged)="eventTimesChanged($event)">
+                        </mwl-calendar-day-view>
+                      </div>
+                  </div>
+            
+            </div>
+    
+          </ng-sidebar-container>
+    </div>

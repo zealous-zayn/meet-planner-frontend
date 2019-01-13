@@ -1,0 +1,14 @@
+.hord{
+    border: 2px solid grey;
+    font-size: 1.5em;
+    color: #343a40;
+    padding: 1vh;
+    border-radius: 10px;
+}
+
+@media only screen and (max-width: 615px){
+    .hord{
+        font-size: 1.1em
+    }
+
+}   

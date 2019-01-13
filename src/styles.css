@@ -1,1 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+
+.ng-sidebar{
+    background-color: #f5f5f5;
+    border-right: 2px solid;
+    border-top: 2px solid;
+    border-radius: 10px;
+    padding: 2vh;
+}
