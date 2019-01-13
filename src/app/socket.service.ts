@@ -13,7 +13,7 @@ import * as io from 'socket.io-client';
 
 
 export class SocketService {
-  public baseUrl = "http://localhost:3000";
+  public baseUrl = "http://api-meet-planner.issuetrackerpro.com";
   public socket;
 
   constructor(private http: HttpClient) { 

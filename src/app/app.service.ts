@@ -7,7 +7,7 @@ import { CookieService } from 'ngx-cookie-service'
   providedIn: 'root'
 })
 export class AppService {
-  public baseUrl = 'http://localhost:3000/api/v1/users'
+  public baseUrl = 'http://api-meet-planner.issuetrackerpro.com/api/v1/users'
 
   constructor(private cookieService: CookieService, private _http: HttpClient) { }
 
